@@ -83,7 +83,7 @@ where
     // 0x1.0p4 <- correct
 
     // This adjustment corrects the location of the decimal point.
-    exponent += ((hexpoint.point_loc as i32) - 0) * 4 - 1;
+    exponent += (hexpoint.point_loc as i32) * 4 - 1;
 
     // Next, we need to adjust the mantissa so that it either:
     // - has just shifted a 1 out of the MSB, or
