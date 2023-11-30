@@ -9,7 +9,7 @@ that lets you write a precise representation of a floating point number.
 For example:
 - `0x1.0p0` is just 1.0
 - `0x8.8p1` is 8.5 * 2^1, or 17.
-- `0x3.0p-12` is 4 * 2^-12, or 0.000732421875 in decimal.
+- `0x3.0p-12` is 3 * 2^-12, or 0.000732421875 in decimal.
 
 Unlike decimal representations, "hexfloat" representations don't
 involve any rounding, so a format-then-parse round trip will always
