@@ -32,8 +32,8 @@ Values that are outside the range that can be represented in the
 underlying type (f32 or f64) will also fail to parse.
 
 Values with excessive precision will have the trailing bits dropped.
-For example, `0x1.0000000000000001p0` will be truncated to `1.0` when
-parsed into a `HexFloat<f32>`.
+For example, `0x1.0000000000001p0` will be truncated to `1.0` when
+parsed into a `HexFloat<f32>` (but would fit in an f64).
 
 "Subnormal" values can be successfully formatted and parsed;
 `0x0.000002p-127` can be parsed as an f32; anything smaller will
