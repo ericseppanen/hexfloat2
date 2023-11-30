@@ -4,22 +4,27 @@ use std::fmt::LowerHex;
 use std::num::FpCategory;
 use std::ops::Shl;
 
-pub(crate) trait MantissaOps:
-    Shl<u32, Output = Self> + LowerHex + TryFrom<u64> + From<u32>
-{
-} // FIXME try removing From<u32>
-pub(crate) trait ExponentOps: Into<i32> + TryFrom<i32> {}
+#[doc(hidden)]
+pub trait MantissaOps: Shl<u32, Output = Self> + LowerHex + TryFrom<u64> {}
+
+#[doc(hidden)]
+pub trait ExponentOps: Into<i32> + TryFrom<i32> {}
 
 impl MantissaOps for u32 {}
 impl ExponentOps for u8 {}
 impl MantissaOps for u64 {}
 impl ExponentOps for u16 {}
 
-pub(crate) trait FloatBits {
+#[doc(hidden)]
+pub trait FloatBits {
     const BITS: u32;
     const EXPONENT_BITS: u8;
     const MANTISSA_BITS: u8;
     const EXPONENT_BIAS: u16;
+    const INFINITY: Self;
+    const NEG_INFINITY: Self;
+    const NAN: Self;
+
     type IntegerBits;
     type ExponentType: ExponentOps;
     type MantissaType: MantissaOps;
@@ -35,6 +40,9 @@ impl FloatBits for f32 {
     const EXPONENT_BITS: u8 = 8;
     const MANTISSA_BITS: u8 = 23;
     const EXPONENT_BIAS: u16 = 127;
+    const INFINITY: Self = f32::INFINITY;
+    const NEG_INFINITY: Self = f32::NEG_INFINITY;
+    const NAN: Self = f32::NAN;
     type IntegerBits = u32;
     type ExponentType = u8;
     type MantissaType = u32;
@@ -78,6 +86,9 @@ impl FloatBits for f64 {
     const EXPONENT_BITS: u8 = 11;
     const MANTISSA_BITS: u8 = 52;
     const EXPONENT_BIAS: u16 = 1023;
+    const INFINITY: Self = f64::INFINITY;
+    const NEG_INFINITY: Self = f64::NEG_INFINITY;
+    const NAN: Self = f64::NAN;
     type IntegerBits = u64;
     type ExponentType = u16;
     type MantissaType = u64;

@@ -7,27 +7,17 @@ use crate::HexFloat;
 #[derive(Debug)]
 pub struct ParseError;
 
-impl FromStr for HexFloat<f32> {
+impl<F> FromStr for HexFloat<F>
+where
+    F: FloatBits,
+{
     type Err = ParseError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "inf" => Ok(Self(f32::INFINITY)),
-            "-inf" => Ok(Self(f32::NEG_INFINITY)),
-            "NaN" => Ok(Self(f32::NAN)),
-            _ => Ok(HexFloat(parse_hex(s)?)),
-        }
-    }
-}
-
-impl FromStr for HexFloat<f64> {
-    type Err = ParseError;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "inf" => Ok(Self(f64::INFINITY)),
-            "-inf" => Ok(Self(f64::NEG_INFINITY)),
-            "NaN" => Ok(Self(f64::NAN)),
+            "inf" => Ok(Self(F::INFINITY)),
+            "-inf" => Ok(Self(F::NEG_INFINITY)),
+            "NaN" => Ok(Self(F::NAN)),
             _ => Ok(HexFloat(parse_hex(s)?)),
         }
     }
