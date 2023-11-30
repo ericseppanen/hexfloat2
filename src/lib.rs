@@ -70,9 +70,9 @@ use std::ops::{Deref, DerefMut};
 
 mod float;
 mod format;
-mod parse;
+mod parser;
 
-pub use parse::ParseError;
+pub use parser::ParseError;
 
 use crate::float::FloatBits;
 
