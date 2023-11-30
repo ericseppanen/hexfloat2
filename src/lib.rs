@@ -139,6 +139,24 @@ impl<T> HexFloat<T> {
     }
 }
 
+impl<T> From<T> for HexFloat<T> {
+    fn from(value: T) -> Self {
+        HexFloat(value)
+    }
+}
+
+impl From<HexFloat<f32>> for f32 {
+    fn from(hexfloat: HexFloat<f32>) -> Self {
+        hexfloat.0
+    }
+}
+
+impl From<HexFloat<f64>> for f64 {
+    fn from(hexfloat: HexFloat<f64>) -> Self {
+        hexfloat.0
+    }
+}
+
 pub trait SupportedFloat: FloatBits + Display {}
 impl SupportedFloat for f32 {}
 impl SupportedFloat for f64 {}
