@@ -107,7 +107,7 @@ use crate::float::FloatBits;
 /// assert_eq!(sz, "0x1.000000p-20");
 /// ```
 ///
-#[derive(Debug, Default, PartialEq, PartialOrd, Hash)]
+#[derive(Copy, Clone, Debug, Default, PartialEq, PartialOrd, Hash)]
 pub struct HexFloat<T>(pub T);
 
 pub type HexFloat32 = HexFloat<f32>;
