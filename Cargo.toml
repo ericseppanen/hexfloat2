@@ -9,6 +9,6 @@ repository = "https://github.com/ericseppanen/hexfloat2"
 license = "MIT"
 authors = ["Eric Seppanen <eds@reric.net>"]
 readme = "README.md"
-rust-version = "1.70"
+rust-version = "1.67"
 
 [dependencies]
