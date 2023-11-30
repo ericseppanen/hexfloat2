@@ -19,20 +19,21 @@ A formatted hexfloat will always appear in its "canonical" format,
 copying the exact bit representation as closely as possible. For example,
 the value 2^-20 will always be rendered as `0x1.0p-19`.
 
-The parser will permit "non-canonical" representations. For example,
+The parser attempts to handle "non-canonical" representations. For example,
 these values will all be parsed as 2^-20:
 - `0x1.0p-20`
 - `0x2.0p-21`
 - `0x0.0008p-7`
 
-The parser does not attempt to handle extreme cases. Values with too
+Some inputs won't parse: values with too
 many hex digits (e.g. `0x10000000000000000p20`) will fail to parse
 because the parser is only willing to parse up to 16 hex digits.
 Values that are outside the range that can be represented in the
 underlying type (f32 or f64) will also fail to parse.
 
 Values with excessive precision will have the trailing bits dropped.
-For example, `0x1.0000000000000001p0` will be truncated to `1.0`.
+For example, `0x1.0000000000000001p0` will be truncated to `1.0` when
+parsed into a `HexFloat<f32>`.
 
 "Subnormal" values can be successfully formatted and parsed;
 `0x0.000002p-127` can be parsed as an f32; anything smaller will
@@ -61,7 +62,7 @@ assert_eq!(sz, "0x1.000000p-20");
 ```
 
 This crate provides newtype wrappers `HexFloat<T>`, aka `HexFloat32` or
-`HexFloat64`, that implement `Display`` and `FromStr`.
+`HexFloat64`, that implement `Display` and `FromStr`.
 
 If you don't want to deal with the wrapper structs, you can also call
 `hexfloat::parse::<T>()` or `hexfloat::format::<T>()` instead.
