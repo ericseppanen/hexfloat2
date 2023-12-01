@@ -115,10 +115,6 @@ where
     };
     exponent -= exponent_adjust;
 
-    // FIXME: if the exponent plus the point_loc adjustment would
-    // force the exponent to be too small, make a subnormal value.
-    // FIXME: If the subnormal values ends up 0, return 0p0.
-
     if exponent < -(F::EXPONENT_BIAS as i32) || exponent > F::EXPONENT_BIAS as i32 {
         return Err(ParseError);
     }
@@ -227,12 +223,12 @@ fn take_hex(chars: &mut Peekable<Chars>) -> Result<HexPoint, ParseError> {
     Ok(HexPoint { value, point_loc })
 }
 
-// Allows a leading `+` or `-`.
-// Stops at end of string; returns an error at any nondigit character.
-// Note this can't parse the full range of i32, since the minimum value
-// can't be parsed this way. But we don't need it to.
-// FIXME: add an input parameter with the number of bits the result needs
-// to fit into?
+/// Parse a decimal value from the input iterator.
+///
+/// Allows a leading `+` or `-`.
+/// Stops at end of string; returns an error at any nondigit character.
+/// (because the decimal exponent is always the last part of the hexfloat
+/// value.)
 fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
     let mut negative = false;
     let mut value = 0i32;
@@ -253,7 +249,8 @@ fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
         match chars.peek().copied() {
             Some(d) if d.is_ascii_digit() => {
                 chars.next();
-                // FIXME: we'll overflow if we try to build up the most-negative i32.
+                // If we overflow while computing this integer,
+                // there's no way the result will fit in an f64.
                 value = value.checked_mul(10).ok_or(ParseError)?;
                 value = value
                     .checked_add(((d as u8) - b'0') as i32)
