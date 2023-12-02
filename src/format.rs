@@ -1,5 +1,5 @@
-use std::fmt::Display;
-use std::num::FpCategory;
+use core::fmt::Display;
+use core::num::FpCategory;
 
 use crate::float::FloatBits;
 use crate::HexFloat;
@@ -10,7 +10,7 @@ impl<F> Display for HexFloat<F>
 where
     F: FloatBits + Display,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self.category() {
             FpCategory::Nan | FpCategory::Infinite => {
                 return self.0.fmt(f);

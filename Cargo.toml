@@ -11,4 +11,8 @@ authors = ["Eric Seppanen <eds@reric.net>"]
 readme = "README.md"
 rust-version = "1.67"
 
+[features]
+default = ["alloc"]
+alloc = []
+
 [dependencies]

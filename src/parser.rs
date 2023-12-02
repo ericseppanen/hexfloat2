@@ -1,5 +1,5 @@
-use std::iter::Peekable;
-use std::str::{Chars, FromStr};
+use core::iter::Peekable;
+use core::str::{Chars, FromStr};
 
 use crate::float::FloatBits;
 use crate::HexFloat;
@@ -274,6 +274,9 @@ fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
 
 #[cfg(test)]
 mod tests {
+
+    use alloc::format;
+
     use super::*;
 
     #[track_caller]

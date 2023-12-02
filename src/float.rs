@@ -1,8 +1,8 @@
 //! traits that abstract across f32 / f64.
 
-use std::fmt::LowerHex;
-use std::num::FpCategory;
-use std::ops::Shl;
+use core::fmt::LowerHex;
+use core::num::FpCategory;
+use core::ops::Shl;
 
 #[doc(hidden)]
 pub trait MantissaOps: Shl<u32, Output = Self> + LowerHex + TryFrom<u64> {}

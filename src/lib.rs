@@ -65,8 +65,13 @@
 //! `hexfloat::parse::<T>()` or `hexfloat::format::<T>()` instead.
 //!
 
-use std::fmt::Display;
-use std::ops::{Deref, DerefMut};
+#![no_std]
+
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+use core::fmt::Display;
+use core::ops::{Deref, DerefMut};
 
 mod float;
 mod format;
@@ -181,6 +186,9 @@ where
 /// ```
 /// assert_eq!(hexfloat2::format(100.0f32), "0x1.900000p6");
 /// ```
-pub fn format<F: SupportedFloat>(value: F) -> String {
+#[cfg(feature = "alloc")]
+pub fn format<F: SupportedFloat>(value: F) -> alloc::string::String {
+    use alloc::string::ToString;
+
     HexFloat(value).to_string()
 }
