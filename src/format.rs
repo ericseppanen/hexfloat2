@@ -19,9 +19,9 @@ where
         };
         let (sign, exponent, mantissa) = self.to_parts();
 
-        let bias = F::EXPONENT_BIAS as i32;
+        let bias = i32::from(F::EXPONENT_BIAS);
         // The mantissa MSB needs to be shifted up to the nearest nibble.
-        let mshift = (4 - (F::MANTISSA_BITS as u32) % 4) % 4;
+        let mshift = (4 - u32::from(F::MANTISSA_BITS) % 4) % 4;
         let mantissa = mantissa << mshift;
         // The width is rounded up to the nearest char (4 bits)
         let mwidth = (F::MANTISSA_BITS as usize + 3) / 4;

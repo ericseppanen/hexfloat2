@@ -64,7 +64,7 @@ impl FloatBits for f32 {
     /// The caller must verify that the inputs are within the proper bounds.
     ///
     fn from_parts(sign: bool, exponent: u8, mantissa: u32) -> Self {
-        let bits: u32 = ((sign as u32) << 31) + ((exponent as u32) << 23) + mantissa;
+        let bits: u32 = (u32::from(sign) << 31) + (u32::from(exponent) << 23) + mantissa;
         f32::from_bits(bits)
     }
 
@@ -110,7 +110,7 @@ impl FloatBits for f64 {
     /// The caller must verify that the inputs are within the proper bounds.
     ///
     fn from_parts(sign: bool, exponent: u16, mantissa: u64) -> Self {
-        let bits: u64 = ((sign as u64) << 63) + ((exponent as u64) << 52) + mantissa;
+        let bits: u64 = (u64::from(sign) << 63) + (u64::from(exponent) << 52) + mantissa;
         f64::from_bits(bits)
     }
 

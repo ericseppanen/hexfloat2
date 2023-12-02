@@ -65,8 +65,10 @@
 //! `hexfloat::parse::<T>()` or `hexfloat::format::<T>()` instead.
 //!
 
+#![allow(unknown_lints)]
 #![deny(unsafe_code)]
 #![warn(missing_docs)]
+#![warn(clippy::cast_lossless)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(feature = "alloc")]

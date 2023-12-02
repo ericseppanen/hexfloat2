@@ -94,7 +94,7 @@ where
     // 0x1.0p4 <- correct
 
     // This adjustment corrects the location of the decimal point.
-    exponent += (hexpoint.point_loc as i32) * 4 - 1;
+    exponent += i32::from(hexpoint.point_loc) * 4 - 1;
 
     // Next, we need to adjust the mantissa so that it either:
     // - has just shifted a 1 out of the MSB, or
@@ -125,7 +125,7 @@ where
     };
     exponent -= exponent_adjust;
 
-    if exponent < -(F::EXPONENT_BIAS as i32) || exponent > F::EXPONENT_BIAS as i32 {
+    if exponent < -i32::from(F::EXPONENT_BIAS) || exponent > i32::from(F::EXPONENT_BIAS) {
         return Err(ParseError);
     }
 
@@ -217,7 +217,7 @@ fn take_hex(chars: &mut Peekable<Chars>) -> Result<HexPoint, ParseError> {
             continue;
         }
         value <<= 4;
-        value += nibble as u64;
+        value += u64::from(nibble);
         count += 1;
     }
 
@@ -263,7 +263,7 @@ fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
                 // there's no way the result will fit in an f64.
                 value = value.checked_mul(10).ok_or(ParseError)?;
                 value = value
-                    .checked_add(((d as u8) - b'0') as i32)
+                    .checked_add(i32::from((d as u8) - b'0'))
                     .ok_or(ParseError)?;
                 count += 1;
             }
