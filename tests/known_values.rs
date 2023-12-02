@@ -12,6 +12,8 @@ fn check_parse_f64(s: &str, expected: f64) {
 
 #[test]
 fn known_values() {
+    #![allow(clippy::excessive_precision)]
+
     // 2^53 - 1
     check_parse_f64("0x1fffffffffffff", 9007199254740991.0);
     // 2^54 - 1 will be truncated. The precise value would be 18014398509481983.

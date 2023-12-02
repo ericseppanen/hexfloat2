@@ -18,7 +18,7 @@ fn round_trip_f32(val: f32) {
 fn test_round_trip_f32() {
     let mut val = 1.0f32;
     loop {
-        val = val * 2.0;
+        val *= 2.0;
         if val.is_infinite() {
             break;
         };
@@ -27,7 +27,7 @@ fn test_round_trip_f32() {
 
     let mut val = 1.0f32;
     loop {
-        val = val * 0.5;
+        val *= 0.5;
         if val == 0.0 {
             break;
         };
@@ -51,7 +51,7 @@ fn round_trip_f64(val: f64) {
 fn test_round_trip_f64() {
     let mut val = 1.0f64;
     loop {
-        val = val * 2.0;
+        val *= 2.0;
         if val.is_infinite() {
             break;
         };
@@ -60,7 +60,7 @@ fn test_round_trip_f64() {
 
     let mut val = 1.0f64;
     loop {
-        val = val * 0.5;
+        val *= 0.5;
         if val == 0.0 {
             break;
         };
