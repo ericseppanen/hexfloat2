@@ -278,7 +278,7 @@ fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
     }
 
     if negative {
-        value = -value
+        value = -value;
     };
     Ok(value)
 }
