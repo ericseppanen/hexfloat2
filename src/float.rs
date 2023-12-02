@@ -71,7 +71,7 @@ impl FloatBits for f32 {
     fn to_parts(&self) -> (bool, u8, u32) {
         let bits = self.to_bits();
         let sign: bool = (bits >> 31) == 1;
-        let exponent = (bits >> 23) as u8;
+        let exponent = u8::try_from((bits >> 23) & 0xFF).unwrap();
         let mantissa = bits & 0x7F_FFFF;
         (sign, exponent, mantissa)
     }

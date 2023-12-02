@@ -318,6 +318,7 @@ mod tests {
 
     #[track_caller]
     fn check_parse(s: &str, val: f64) {
+        #[allow(clippy::cast_possible_truncation)]
         check_parse_f32(s, val as f32);
         check_parse_f64(s, val);
     }
