@@ -26,8 +26,14 @@ where
         // The width is rounded up to the nearest char (4 bits)
         let mwidth = (F::MANTISSA_BITS as usize + 3) / 4;
         let sign_char = if sign { "-" } else { "" };
-        let exponent: i32 = exponent.into() - bias;
-        let leading = if exponent == -bias { "0." } else { "1." };
+        let mut exponent: i32 = exponent.into() - bias;
+        let leading = if exponent == -bias {
+            // subnormal number means we shift our output by 1 bit.
+            exponent += 1;
+            "0."
+        } else {
+            "1."
+        };
 
         write!(f, "{sign_char}0x{leading}{mantissa:0mwidth$x}p{exponent}")
     }

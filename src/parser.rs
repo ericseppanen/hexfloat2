@@ -100,8 +100,7 @@ where
     if too_far < 0 {
         // Don't shift so far; try generating a subnormal
         // value instead.
-        // FIXME: explain the -1 here? It was added as a hack to make the values work.
-        shift_left -= (-1 - too_far) as u32;
+        shift_left -= (-too_far) as u32;
         // We adjust the exponent by 1 more, which should make it -127 (f32) or -1023 (f64)
         exponent_adjust += too_far + 1;
     }
@@ -338,13 +337,50 @@ mod tests {
     }
 
     #[test]
-    fn test_subnormal() {
-        check_parse_f32("0x0.000002p-127", 1e-45); // smallest subnormal f32
-        check_parse_f32("0x0.000001p-127", 0.0); // loss of precision, rounds to 0
-        check_parse_f32("0x1.000001p0", 1.0); // loss of precision, rounds to 1
+    fn test_subnormal_f32() {
+        // These values were computed by hand, so hopefully they're correct.
+        let smallest_normal_f32 = 0.000000000000000000000000000000000000011754943508222875079687365372222456778186655567720875215087517062784172594547271728515625f32;
+        let smallest_subnormal_f32 = 0.00000000000000000000000000000000000000000000140129846432481707092372958328991613128026194187651577175706828388979108268586060148663818836212158203125f32;
+        assert_eq!(smallest_subnormal_f32.to_bits(), 0x0000_0001);
 
-        check_parse_f64("0x0.00000000000008p-1022", 5e-324); // smallest subnormal f64
-        check_parse_f64("0x0.00000000000004p-1022", 0.0); // loss of precision, rounds to 0
+        check_parse_f32("0x1.0p-126", smallest_normal_f32); // smallest normal f32
+
+        check_parse_f32("0x1.0p-127", smallest_normal_f32 / 2.0); // biggest power of 2 subnormal
+        check_parse_f32("0x0.8p-126", smallest_normal_f32 / 2.0);
+
+        check_parse_f32("0x1.0p-128", smallest_normal_f32 / 4.0);
+        check_parse_f32("0x0.8p-127", smallest_normal_f32 / 4.0);
+        check_parse_f32("0x0.4p-126", smallest_normal_f32 / 4.0);
+
+        check_parse_f32("0x1.0p-129", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.8p-128", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.4p-127", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.2p-126", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.1p-125", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.08p-124", smallest_normal_f32 / 8.0);
+        check_parse_f32("0x0.008p-124", smallest_normal_f32 / 128.0);
+        check_parse_f32("0x0.0008p-124", smallest_normal_f32 / 2048.0);
+        check_parse_f32("0x0.00008p-124", smallest_normal_f32 / 32768.0);
+        check_parse_f32("0x0.000008p-124", smallest_normal_f32 / 524288.0);
+        check_parse_f32("0x0.000004p-124", smallest_normal_f32 / 1048576.0);
+        check_parse_f32("0x0.000002p-124", smallest_normal_f32 / 2097152.0);
+        check_parse_f32("0x0.000002p-125", smallest_normal_f32 / 4194304.0);
+
+        check_parse_f32("0x0.000001p-125", smallest_subnormal_f32);
+        check_parse_f32("0x0.000002p-126", smallest_subnormal_f32);
+        check_parse_f32("0x0.000004p-127", smallest_subnormal_f32);
+
+        check_parse_f32("0x0.000001p-126", 0.0); // loss of precision, rounds to 0
+        check_parse_f32("0x0.000002p-127", 0.0);
+        check_parse_f32("0x0.000004p-128", 0.0);
+
+        check_parse_f32("0x1.000001p0", 1.0); // loss of precision, rounds to 1
+    }
+
+    #[test]
+    fn test_subnormal_f64() {
+        check_parse_f64("0x0.00000000000008p-1021", 5e-324); // smallest subnormal f64
+        check_parse_f64("0x0.00000000000004p-1021", 0.0); // loss of precision, rounds to 0
         check_parse_f64("0x1.00000000000004p0", 1.0); // loss of precision, rounds to 1
     }
 

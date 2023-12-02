@@ -4,11 +4,12 @@ use hexfloat2::HexFloat;
 
 #[track_caller]
 fn round_trip_f32(val: f32) {
+    let val_bits = val.to_bits();
     let hf = HexFloat::new(val);
     let hf_string = hf.to_string();
     let hf2: HexFloat<f32> = hf_string.parse().unwrap();
 
-    eprintln!("{val:?} -> {hf_string} -> {hf2:?} -> {hf2}");
+    eprintln!("{val:?} ({val_bits:#08x}) -> {hf_string} -> {hf2:?} -> {hf2}");
 
     assert_eq!(hf2.deref(), &val);
 }
@@ -36,11 +37,12 @@ fn test_round_trip_f32() {
 
 #[track_caller]
 fn round_trip_f64(val: f64) {
+    let val_bits = val.to_bits();
     let hf = HexFloat::new(val);
     let hf_string = hf.to_string();
     let hf2: HexFloat<f64> = hf_string.parse().unwrap();
 
-    eprintln!("{val:?} -> {hf_string} -> {hf2:?} -> {hf2}");
+    eprintln!("{val:?} ({val_bits:#08x}) -> {hf_string} -> {hf2:?} -> {hf2}");
 
     assert_eq!(hf2.deref(), &val);
 }
