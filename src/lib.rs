@@ -70,6 +70,8 @@
 #![warn(missing_docs)]
 #![warn(clippy::cast_lossless)]
 #![warn(clippy::cast_possible_truncation)]
+#![warn(clippy::cast_possible_wrap)]
+#![warn(clippy::cast_sign_loss)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(feature = "alloc")]

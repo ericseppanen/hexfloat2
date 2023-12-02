@@ -105,13 +105,13 @@ where
     // For each bit shifted left, we should subtract 1 from the exponent.
     // EXCEPT! That's not true for the first bit, which we assume to
     // always be the case: 1.0p0 is well-formed.
-    let mut exponent_adjust = (shift_left as i32) - 1;
+    let mut exponent_adjust = i32::try_from(shift_left).unwrap() - 1;
 
     let too_far = exponent - exponent_adjust + i32::from(F::EXPONENT_BIAS - 1);
     if too_far < 0 {
         // Don't shift so far; try generating a subnormal
         // value instead.
-        shift_left -= (-too_far) as u32;
+        shift_left -= u32::try_from(-too_far).unwrap();
         // We adjust the exponent by 1 more, which should make it -127 (f32) or -1023 (f64)
         exponent_adjust += too_far + 1;
     }
