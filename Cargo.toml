@@ -12,7 +12,8 @@ readme = "README.md"
 rust-version = "1.67"
 
 [features]
-default = ["alloc"]
+default = ["std"]
+std = ["alloc"]
 alloc = []
 
 [dependencies]

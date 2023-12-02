@@ -1,11 +1,22 @@
+use core::fmt::Display;
 use core::iter::Peekable;
 use core::str::{Chars, FromStr};
 
 use crate::float::FloatBits;
 use crate::HexFloat;
 
+/// An error occurred while parsing a hexadecimal float.
 #[derive(Debug)]
 pub struct ParseError;
+
+impl Display for ParseError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str("hexfloat parse error")
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::error::Error for ParseError {}
 
 impl<F> FromStr for HexFloat<F>
 where

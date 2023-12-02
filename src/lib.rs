@@ -65,7 +65,7 @@
 //! `hexfloat::parse::<T>()` or `hexfloat::format::<T>()` instead.
 //!
 
-#![no_std]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
@@ -188,6 +188,7 @@ where
 /// ```
 #[cfg(feature = "alloc")]
 pub fn format<F: SupportedFloat>(value: F) -> alloc::string::String {
+    #[allow(unused_imports)]
     use alloc::string::ToString;
 
     HexFloat(value).to_string()
