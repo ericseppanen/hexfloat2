@@ -65,6 +65,8 @@
 //! `hexfloat::parse::<T>()` or `hexfloat::format::<T>()` instead.
 //!
 
+#![deny(unsafe_code)]
+#![warn(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
 
 #[cfg(feature = "alloc")]
@@ -115,7 +117,9 @@ use crate::float::FloatBits;
 #[derive(Copy, Clone, Debug, Default, PartialEq, PartialOrd, Hash)]
 pub struct HexFloat<T>(pub T);
 
+/// An alias for [`HexFloat<f32>`].
 pub type HexFloat32 = HexFloat<f32>;
+/// An alias for [`HexFloat<f64>`].
 pub type HexFloat64 = HexFloat<f64>;
 
 impl<T> AsRef<T> for HexFloat<T> {
@@ -139,6 +143,7 @@ impl<T> DerefMut for HexFloat<T> {
 }
 
 impl<T> HexFloat<T> {
+    /// Construct a `HexFloat` from an `f32` or `f64`.
     pub const fn new(value: T) -> Self {
         Self(value)
     }
@@ -162,6 +167,7 @@ impl From<HexFloat<f64>> for f64 {
     }
 }
 
+/// A marker trait for supported floating point types.
 pub trait SupportedFloat: FloatBits + Display {}
 impl SupportedFloat for f32 {}
 impl SupportedFloat for f64 {}
