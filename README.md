@@ -17,7 +17,7 @@ return exactly the same original value.
 
 A formatted hexfloat will always appear in its "canonical" format,
 copying the exact bit representation as closely as possible. For example,
-the value 2^-20 will always be rendered as `0x1.0p-19`.
+the value 2^-20 will always be rendered as `0x1.0p-20`.
 
 The parser attempts to handle "non-canonical" representations. For example,
 these values will all be parsed as 2^-20:
