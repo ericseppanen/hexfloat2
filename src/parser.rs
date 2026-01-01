@@ -283,6 +283,7 @@ fn take_decimal(chars: &mut Peekable<Chars>) -> Result<i32, ParseError> {
     Ok(value)
 }
 
+#[cfg(feature = "alloc")]
 #[cfg(test)]
 mod tests {
 

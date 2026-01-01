@@ -54,7 +54,9 @@
 //! let fz: HexFloat32 = z.parse().unwrap();
 //! assert_eq!(*fz, EXPECTED);
 //!
+//! # #[cfg(feature = "alloc")]
 //! let sz = format!("{fz}");
+//! # #[cfg(feature = "alloc")]
 //! assert_eq!(sz, "0x1.000000p-20");
 //! ```
 //!
@@ -81,6 +83,7 @@ use core::fmt::Display;
 use core::ops::{Deref, DerefMut};
 
 mod float;
+#[cfg(feature = "alloc")]
 mod format;
 mod parser;
 
@@ -115,7 +118,9 @@ use crate::float::FloatBits;
 /// let fz: HexFloat32 = z.parse().unwrap();
 /// assert_eq!(*fz, EXPECTED);
 ///
+/// # #[cfg(feature = "alloc")]
 /// let sz = format!("{fz}");
+/// # #[cfg(feature = "alloc")]
 /// assert_eq!(sz, "0x1.000000p-20");
 /// ```
 ///

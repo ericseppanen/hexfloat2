@@ -1,3 +1,5 @@
+#![cfg(feature = "alloc")]
+
 use std::ops::Deref;
 
 use hexfloat2::HexFloat;
