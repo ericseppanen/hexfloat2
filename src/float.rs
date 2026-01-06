@@ -8,7 +8,6 @@ use core::ops::{Shl, Shr};
 pub trait MantissaOps:
     Shl<u32, Output = Self> + Shr<u32, Output = Self> + LowerHex + TryFrom<u64>
 {
-    fn is_zero(self) -> bool;
     fn trailing_zeroes(self) -> u32;
 }
 
@@ -16,19 +15,12 @@ pub trait MantissaOps:
 pub trait ExponentOps: Into<i32> + TryFrom<i32> {}
 
 impl MantissaOps for u32 {
-    fn is_zero(self) -> bool {
-        self == 0
-    }
-
     fn trailing_zeroes(self) -> u32 {
         u32::trailing_zeros(self)
     }
 }
 impl ExponentOps for u8 {}
 impl MantissaOps for u64 {
-    fn is_zero(self) -> bool {
-        self == 0
-    }
     fn trailing_zeroes(self) -> u32 {
         u64::trailing_zeros(self)
     }
