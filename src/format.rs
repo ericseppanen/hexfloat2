@@ -53,7 +53,13 @@ where
 
         let mwidth = (mantissa_max_chars - remove_chars_from_right) as usize;
 
-        let sign_char = if sign { "-" } else { "" };
+        let sign_char = if sign {
+            "-"
+        } else if f.sign_plus() {
+            "+"
+        } else {
+            ""
+        };
         let mut exponent: i32 = exponent.into() - bias;
         let leading = if exponent == -bias {
             // subnormal number means we shift our output by 1 bit.
@@ -94,6 +100,16 @@ mod tests {
             HexFloat::from(1.0000000000000002_f64).to_string(),
             "0x1.0000000000001p0"
         );
+    }
+
+    #[test]
+    fn test_format_options() {
+        // The `+` format option indicates the sign should always be printed.
+        assert_eq!(format!("{:+}", HexFloat::from(1.0f32)), "+0x1.0p0");
+        assert_eq!(format!("{:+}", HexFloat::from(-1.0f32)), "-0x1.0p0");
+        assert_eq!(format!("{}", HexFloat::from(-1.0f32)), "-0x1.0p0");
+        // Ensure round-trip still works with `+`.
+        assert_eq!(crate::parse::<f32>("+0x1.0p0").unwrap(), 1.0);
     }
 
     #[test]
