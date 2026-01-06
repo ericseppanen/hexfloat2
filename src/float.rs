@@ -2,17 +2,37 @@
 
 use core::fmt::LowerHex;
 use core::num::FpCategory;
-use core::ops::Shl;
+use core::ops::{Shl, Shr};
 
 #[doc(hidden)]
-pub trait MantissaOps: Shl<u32, Output = Self> + LowerHex + TryFrom<u64> {}
+pub trait MantissaOps:
+    Shl<u32, Output = Self> + Shr<u32, Output = Self> + LowerHex + TryFrom<u64>
+{
+    fn is_zero(self) -> bool;
+    fn trailing_zeroes(self) -> u32;
+}
 
 #[doc(hidden)]
 pub trait ExponentOps: Into<i32> + TryFrom<i32> {}
 
-impl MantissaOps for u32 {}
+impl MantissaOps for u32 {
+    fn is_zero(self) -> bool {
+        self == 0
+    }
+
+    fn trailing_zeroes(self) -> u32 {
+        u32::trailing_zeros(self)
+    }
+}
 impl ExponentOps for u8 {}
-impl MantissaOps for u64 {}
+impl MantissaOps for u64 {
+    fn is_zero(self) -> bool {
+        self == 0
+    }
+    fn trailing_zeroes(self) -> u32 {
+        u64::trailing_zeros(self)
+    }
+}
 impl ExponentOps for u16 {}
 
 #[doc(hidden)]
@@ -27,7 +47,7 @@ pub trait FloatBits {
 
     type IntegerBits;
     type ExponentType: ExponentOps;
-    type MantissaType: MantissaOps;
+    type MantissaType: MantissaOps + Copy;
 
     fn zero(sign: bool) -> Self;
     fn from_parts(sign: bool, exponent: Self::ExponentType, mantissa: Self::MantissaType) -> Self;

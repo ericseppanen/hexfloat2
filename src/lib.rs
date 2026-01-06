@@ -57,7 +57,7 @@
 //! # #[cfg(feature = "alloc")]
 //! let sz = format!("{fz}");
 //! # #[cfg(feature = "alloc")]
-//! assert_eq!(sz, "0x1.000000p-20");
+//! assert_eq!(sz, "0x1.0p-20");
 //! ```
 //!
 //! This crate provides newtype wrappers `HexFloat<T>`, aka `HexFloat32` or
@@ -121,7 +121,7 @@ use crate::float::FloatBits;
 /// # #[cfg(feature = "alloc")]
 /// let sz = format!("{fz}");
 /// # #[cfg(feature = "alloc")]
-/// assert_eq!(sz, "0x1.000000p-20");
+/// assert_eq!(sz, "0x1.0p-20");
 /// ```
 ///
 #[derive(Copy, Clone, Debug, Default, PartialEq, PartialOrd, Hash)]
@@ -200,7 +200,7 @@ where
 ///
 /// # Examples
 /// ```
-/// assert_eq!(hexfloat2::format(100.0f32), "0x1.900000p6");
+/// assert_eq!(hexfloat2::format(100.0f32), "0x1.9p6");
 /// ```
 #[cfg(feature = "alloc")]
 pub fn format<F: SupportedFloat>(value: F) -> alloc::string::String {
