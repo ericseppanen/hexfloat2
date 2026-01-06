@@ -58,7 +58,7 @@ let fz: HexFloat32 = z.parse().unwrap();
 assert_eq!(*fz, EXPECTED);
 
 let sz = format!("{fz}");
-assert_eq!(sz, "0x1.000000p-20");
+assert_eq!(sz, "0x1.0p-20");
 ```
 
 This crate provides newtype wrappers `HexFloat<T>`, aka `HexFloat32` or
