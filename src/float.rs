@@ -8,6 +8,7 @@ use core::ops::{Shl, Shr};
 pub trait MantissaOps:
     Shl<u32, Output = Self> + Shr<u32, Output = Self> + LowerHex + TryFrom<u64>
 {
+    #[allow(dead_code, reason = "used only when 'alloc' feature is enabled")]
     fn trailing_zeroes(self) -> u32;
 }
 

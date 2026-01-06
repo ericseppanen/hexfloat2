@@ -37,7 +37,7 @@ where
         let trailing_zero_chars = trailing_zero_bits / 4;
         // Always print at least one mantissa digit.
         // But don't allow printing more mantissa digits than we have in the mantissa integer.
-        let mantissa_max_chars = (F::MANTISSA_BITS as u32 + 3) / 4;
+        let mantissa_max_chars = (u32::from(F::MANTISSA_BITS) + 3) / 4;
         let precision: u32 = f
             .precision()
             .unwrap_or(0)
